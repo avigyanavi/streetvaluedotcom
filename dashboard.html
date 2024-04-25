@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - StreetValueDotCom</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 5px; width: 80%; margin: 50px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        a { display: block; margin: 10px 0; padding: 10px; background: #007bff; color: white; text-decoration: none; text-align: center; border-radius: 5px; }
+        a:hover { background: #0056b3; }
+        h1 { color: #333; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to Your Dashboard</h1>
+    <a href="profile.html">View/Edit Profile</a>
+    <a href="chat.html">Chat Room</a>
+    <a href="search.html">Search Users</a>
+    <button id="logout-button">Logout</button>
+</div>
+
+<!-- Firebase App (The Core Firebase SDK) is always required and must be listed first -->
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+
+<!-- Link to your JavaScript file that handles the Firebase logic -->
+<script type="module" src="dashboard.js"></script>
+
+</body>
+</html>

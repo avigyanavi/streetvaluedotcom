@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - StreetValueDotCom</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 5px; width: 300px; margin: auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        input, select, button { padding: 10px; margin-top: 10px; width: 100%; }
+        button { background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Search for Matches</h1>
+    <input type="text" id="search-interest" placeholder="Interest">
+    <select id="search-gender">
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+    </select>
+    <input type="number" id="search-age-min" placeholder="Minimum Age">
+    <input type="number" id="search-age-max" placeholder="Maximum Age">
+    <button id="search-button">Search</button>
+    <div id="search-results"></div>
+</div>
+
+<!-- Firebase SDKs -->
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+
+<!-- Search functionality script -->
+<script type="module" src="search.js"></script>
+
+</body>
+</html>

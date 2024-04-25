@@ -1,0 +1,149 @@
+.profile-page {
+  position: fixed; /* or position: absolute; */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* This will center the card vertically and horizontally */
+  padding: 40px; /* Padding to ensure content is not touching the edges */
+  box-sizing: border-box;
+}
+
+/* The card itself will maintain a white background */
+.profile-container {
+  max-width: 1000px; /* Increased from 500px */
+  width: 100%;
+  margin: 40px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: left;
+  font-family: 'Arial', sans-serif; /* Change font to Arial */
+  color: #444;
+  z-index: 5;
+}
+
+/* Style for individual interest items */
+.interest-item {
+  display: flex;
+  justify-content: start; /* Aligns content to the start */
+  align-items: center;
+  margin-bottom: 10px; /* Adds some space between interests */
+}
+
+/* Style for interest text */
+.edit-profile-interest-text {
+  color: black;
+  margin-right: 5px; /* Adds a small space between the interest text and the Remove button */
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.interest-heading {
+  display: block;
+  font-weight: bold; /* Make the heading bold */
+  margin-bottom: 50px; /* Add some space below the heading */
+}
+/* Style for the remove button */
+.remove-interest-btn {
+  padding: 5px 10px;
+  background-color: #ff4081;
+  border: none;
+  color: white;
+  border-radius: 15px;
+  cursor: pointer;
+  align-self: left;
+  font-size: 0.8em; /* Optionally, reduce the font size for the button */
+}
+
+.remove-interest-btn:hover {
+  background-color: darkblue;
+}
+
+.profile-container h1 {
+  text-align: center; /* Center title */
+  color: #ff4081; /* Give the title a pop of color */
+  margin-bottom: 30px;
+}
+
+.profile-container img {
+  width: 150px; /* Smaller profile picture */
+  height: 150px; /* Keep the aspect ratio */
+  object-fit: cover; /* Ensure the image covers the area */
+  border-radius: 50%; /* Circle crop */
+  display: block;
+  margin: 0 auto 20px; /* Center the image */
+  border: 3px solid #ff4081; /* Border color to match the title */
+}
+
+.profile-container p,
+.profile-container label {
+  margin: 10px 0;
+  padding: 0 20px; /* Padding to align with card margins */
+}
+
+.profile-container button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #ff4081; /* Button color to match the theme */
+  color: white;
+  border: none;
+  border-radius: 20px; /* More rounded buttons */
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.profile-container button:hover {
+  background-color: darkblue; /* Slightly darker on hover */
+}
+
+.profile-container input,
+.profile-container select {
+  width: calc(100% - 40px); /* Full width with padding */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Rounded inputs */
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.profile-container input[type="file"] {
+  margin-bottom: 15px;
+}
+
+.profile-container .profile-image-upload {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.profile-container button.back-dashboard {
+  background-color: #555; /* Or any other color you prefer */
+  margin-top: 10px; /* Spacing above the button */
+}
+
+.profile-container input[type="submit"],
+.profile-container input[type="button"],
+.profile-container button {
+  width: auto;
+  padding: 10px 20px;
+}
+
+/* Additional responsive adjustments can be made if necessary */
+@media (max-width: 768px) {
+  .profile-container {
+    width: 90%;
+    padding: 20px;
+  }
+}
+
+/* Background styles for body or main container if needed */
+.profile-page {
+  background-color: #000; /* Light grey background */
+}

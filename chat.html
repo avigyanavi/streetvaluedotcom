@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - StreetValueDotCom</title>
+    <link rel="stylesheet" type="text/css" href="chat.css">
+</head>
+<body>
+
+<div id="chat">
+    <div id="messages"></div>
+    <div id="new-message" style="display: none;"> <!-- This will show after a match is found -->
+        <input type="text" id="message-input" placeholder="Type your message here...">
+        <button id="send-button">Send</button>
+    </div>
+    <button id="random-match-button">Random Match</button>
+    <label for="interests-matching">Interests-Based Matching:</label>
+    <input type="checkbox" id="interests-matching">
+    <button id="end-chat-button" style="display: none;">End Chat</button> <!-- This will show after a match is found -->
+    <div id="loading" class="loading-container" style="display: none;"> <!-- This will show during the matching process -->
+        <div class="loading-spinner"></div>
+        <button id="stop-matching-button">Stop Matching</button> <!-- This will allow stopping the match process -->
+    </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+
+<!-- Chat functionality script -->
+<script type="module" src="chat.js"></script>
+
+</body>
+</html>

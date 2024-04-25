@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+}
+
+#chat {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    margin: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+#messages {
+    overflow-y: scroll;
+    flex-grow: 1;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#new-message {
+    display: flex;
+    margin-top: 10px;
+}
+
+input, button {
+    padding: 10px;
+}
+
+input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message strong {
+    margin-right: 10px;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Set the height to the container */
+}
+
+.loading-spinner {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

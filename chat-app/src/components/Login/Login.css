@@ -1,0 +1,95 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #fff; /* White background for the Apple-like aesthetic */
+  font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.login-form {
+  padding: 2rem;
+  background: #ffffff;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.075); /* Subtle shadow */
+  border-radius: 12px; /* Rounded corners */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 450px; /* Max width to not stretch too much on larger screens */
+  margin: auto; /* Center in the viewport */
+  position: relative; /* For absolute positioning of animated titles */
+}
+
+.login-form h1, .login-form h2 {
+  color: #333;
+  text-align: center;
+  font-family: 'San Francisco', sans-serif;
+}
+
+.animated-titles {
+  position: relative;
+  height: 100px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.title-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  opacity: 0;
+  animation: cycleTitles 9s linear infinite;
+}
+
+/* Adjust animation delays as per the JavaScript setup */
+.title-animation.title-0 { animation-delay: 0s; }
+.title-animation.title-1 { animation-delay: 3s; }
+.title-animation.title-2 { animation-delay: 6s; }
+
+@keyframes cycleTitles {
+  0%, 5%, 30%, 100% { opacity: 0; }
+  10%, 25% { opacity: 1; } /* Visible for longer */
+}
+
+.login-form input {
+  padding: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.login-form input:focus {
+  border-color: #aaa;
+  outline: none;
+}
+
+.login-form button {
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.login-button, .signup-button, .anonymous-button {
+  background-color: #ff4081; /* Blue color for primary actions */
+  color: white;
+}
+
+.login-form button:hover {
+  opacity: 0.8;
+  background-color: darkblue;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .login-form {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StreetValueDotCom</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { background: white; padding: 20px; border-radius: 5px; width: 300px; margin: 50px auto; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        input, button { padding: 10px; width: 100%; margin-top: 10px; }
+        button { background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        h2 { color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Welcome to StreetValueDotCom</h2>
+    <div>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button id="login-email-btn">Login with Email</button>
+    </div>
+
+    <div>
+        <input type="email" id="signup-email" placeholder="Email">
+        <input type="password" id="signup-password" placeholder="Password">
+        <input type="text" id="signup-name" placeholder="Full Name">
+        <input type="number" id="signup-age" placeholder="Age">
+        <input type="text" id="signup-bio" placeholder="Bio">
+        <button id="signup-email-btn">Sign Up with Email</button>
+    </div>
+
+    <button id="login-anon">Login Anonymously</button>
+</div>
+
+<!-- Firebase App (The Core Firebase SDK) is always required and must be listed first -->
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<!-- Add Firebase products that you want to use -->
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+<!-- Link to your JavaScript file that handles the Firebase logic -->
+<script type="module" src="auth.js"></script>
+
+</body>
+</html>

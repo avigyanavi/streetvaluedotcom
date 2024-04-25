@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - StreetValueDotCom</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<div class="container">
+    <div id="user-profile">
+        <img id="profile-picture" src="" alt="Profile Picture" class="profile-picture">
+        <input type="text" id="display-profile-name" value="" disabled>
+        <textarea id="display-profile-bio" rows="4" disabled></textarea>
+        <input type="number" id="display-profile-age" value="" disabled>
+        <select id="display-profile-gender" disabled>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <div id="display-profile-interests-container"></div>
+    </div>
+    
+    <h2>Edit Profile</h2>
+    <input type="text" id="edit-profile-name" placeholder="Full Name">
+    <textarea id="edit-profile-bio" placeholder="Bio" rows="2"></textarea>
+    <input type="number" id="edit-profile-age" placeholder="Age">
+    <select id="edit-profile-gender">
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+    <div id="edit-profile-interests">
+        <input type="text" id="interest-input" placeholder="Type interests" autocomplete="off">
+        <button id="add-interest">Add</button>
+        <div id="interest-tags-container"></div>
+    </div>
+    <input type="file" id="profile-picture-upload" accept="image/*">
+    <button id="update-profile">Update Profile</button>
+    <button id="logout-button">Logout</button>
+    <button id="dashboard-button" onclick="location.href='dashboard.html';">Dashboard</button>
+    <button id="chat-room-button" onclick="location.href='chat.html';">Chat Room</button>
+    <button id="search-users-button" onclick="location.href='search.html';">Search Users</button>
+</div>
+
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js"></script>
+<script type="module" src="profile-management.js"></script>
+
+</body>
+</html>
