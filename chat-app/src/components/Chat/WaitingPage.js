@@ -98,7 +98,7 @@ const WaitingPage = () => {
             {potentialMatches.map(user => (
               console.log("User object:", user),
               <div key={user.uid} className="match-card">
-                <img src={user.pictureUrl} alt={user.name} />
+                <img src={user.pictureUrl} alt="No Pic Uploaded" />
                 <p>{user.name}</p>
                 <button onClick={() => handleAcceptMatch(user)}>Start Chat</button>
                 <button onClick={handleContinueSearching}>Continue Searching</button>

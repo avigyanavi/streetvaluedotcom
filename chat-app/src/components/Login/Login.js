@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase-config'; // Adjust the path based on your project structure
+import { auth, firestore } from '../firebase-config'; // Adjust the path based on your project structure
 import { signInWithEmailAndPassword, signInAnonymously } from "firebase/auth";
 import './Login.css';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -30,7 +31,25 @@ const Login = () => {
   const handleAnonymousLogin = async () => {
     setLoading(true);
     try {
-      await signInAnonymously(auth);
+      const { user } = await signInAnonymously(auth);
+      const userRef = doc(firestore, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+  
+      if (!userSnap.exists()) {
+        // Create the document with initial fields
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: "Guest" + Math.floor(Math.random() * 1000),
+          lookingForChat: false,
+          bio: "This is an anonymous user.",
+          age: "Not specified",
+          gender: "Not specified",
+          interests: [],
+          interestBased: false,
+          // other initial fields...
+        });
+      }
+  
       navigate('/dashboard');
     } catch (error) {
       alert(error.message);

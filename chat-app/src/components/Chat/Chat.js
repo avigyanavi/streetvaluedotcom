@@ -8,19 +8,19 @@ const Chat = () => {
   const [interestBased, setInterestBased] = useState(false);
   const navigate = useNavigate();
 
-  // This function is called when the user clicks the "Find a Match" button
   const handleFindMatchClick = async () => {
     if (!auth.currentUser) {
       console.log("No user is logged in");
       return;
     }
 
-    // Set the user's status to looking for a chat
     const currentUserRef = doc(firestore, 'users', auth.currentUser.uid);
     try {
-      await updateDoc(currentUserRef, { lookingForChat: true });
-      // Navigate the user to the WaitingPage
-      navigate('/waiting');
+      await updateDoc(currentUserRef, {
+        lookingForChat: true,
+        interestBased: interestBased
+      });
+      navigate('/waiting', { state: { interestBased: interestBased } });
     } catch (error) {
       console.error("Error setting lookingForChat status: ", error);
     }
@@ -43,11 +43,11 @@ const Chat = () => {
           Find a Match
         </button>
         <button onClick={() => navigate('/dashboard')} className="dashboard-button">
-    Back to Dashboard
-  </button>
-</div>
-</div>
-);
+          Back to Dashboard
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Chat;

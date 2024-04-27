@@ -28,7 +28,8 @@ const Signup = () => {
         interests: interestsArray, // Store as an array
         gender,
         bio: "", // Initially blank
-        profilePicture: "" // Initially blank
+        profilePicture: "", // Initially blank
+        interestBased: false
       });
   
       // Send email verification
