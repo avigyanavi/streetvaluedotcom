@@ -45,8 +45,8 @@ const Dashboard = () => {
         <h1>Welcome {user ? createAnimatedTitle(user.name) : 'Loading...'} to your Dashboard</h1>
         <button className="link-button" onClick={() => navigate('/profile')}>Profile</button>
         <button className="link-button" onClick={() => navigate('/chat')}>Chat</button>
-        <button className="link-button" onClick={() => navigate('/search')}>Search</button>
-        <button className="link-button" onClick={() => navigate('/saved-people')}>Friends</button>
+        {/* <button className="link-button" onClick={() => navigate('/search')}>Search</button>
+        <button className="link-button" onClick={() => navigate('/saved-people')}>Friends</button> */}
         <button className="link-button" onClick={handleLogout}>Logout</button>
       </div>
   );

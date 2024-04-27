@@ -7,7 +7,7 @@ const Search = () => {
   return (
     <div className="search-container">
       {/* Search UI elements go here */}
-      <h1>Search</h1>
+      <h1>Feature coming soon</h1>
       {/* ... */}
     </div>
   );

@@ -1,0 +1,112 @@
+/* ChattingPage.css */
+.chatting-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Adjust the content spacing */
+    height: 100vh;
+    background-color: #121212; /* Dark gray background */
+    color: #E0E0E0; /* Light gray text for better readability */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .message-list {
+    flex-grow: 1; /* Allow the message list to take up available space */
+    overflow-y: auto; /* Allow scrolling for overflow content */
+    padding-bottom: 20px; /* Add padding at the bottom for spacing */
+  }
+  
+  .message {
+    background-color: #252525; /* Slightly lighter gray for message backgrounds */
+    color: inherit;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 20px;
+    display: flex;
+    /* justify-content: start; Space out the message text and sender */
+    align-items: center;
+  }
+  
+  .message.current-user {
+    background-color: purple; /* Blue color for the current user for better visibility */
+    color: white;
+  }
+  
+  .message.other-user {
+    background-color: black; /* Green color for messages from others */
+    color: white;
+  }
+  
+  .message .clickable-username {
+    color: #0D47A1; /* Blue color indicating clickable items */
+    cursor: pointer;
+    text-decoration: underline; /* Underline to suggest it's a link */
+  }
+  
+  .profile-card {
+    position: fixed; /* Fixed position to overlay the chat */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 350px;
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+  
+  .profile-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #1E88E5; /* Blue border for the profile picture */
+    display: block;
+    margin: 0 auto 20px; /* Center the image */
+  }
+  
+  .profile-card h3, .profile-card p {
+    color: #333;
+  }
+  
+  .chat-inputs {
+    width: 100%; /* Take the full width */
+  }
+  
+  .chat-inputs input[type="text"] {
+    flex-grow: 1; /* Allow input to take available space */
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+  }
+  
+  .chat-inputs button {
+    padding: 10px 20px;
+    background-color: #E53935; /* Blue color to match the current user's messages */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .chat-inputs button:hover {
+    background-color: #D32F2F; /* A darker shade of blue on hover */
+  }
+  
+  .close-profile-btn {
+    padding: 5px 15px;
+    background-color: #E53935; /* Red color for the close button */
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .close-profile-btn:hover {
+    background-color: #D32F2F; /* Darker shade of red on hover */
+  }
+  

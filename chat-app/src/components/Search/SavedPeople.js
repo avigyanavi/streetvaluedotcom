@@ -2,7 +2,7 @@ import React from 'react'
 
 const SavedPeople = () => {
   return (
-    <div>Feature Coming Soon</div>
+    <div className="h1-container"><h1>Feature coming soon</h1></div>
   )
 }
 

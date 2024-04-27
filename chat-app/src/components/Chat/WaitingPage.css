@@ -1,89 +1,94 @@
 .waiting-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f2f2f2;
-  color: #333;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.waiting-page h1 {
-  font-size: 24px;
-  color: #5c67f2;
-  margin-bottom: 20px;
-}
-
-.waiting-page p {
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.match-cards {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.match-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  padding: 15px;
-  margin: 10px 0;
-  text-align: center;
-  width: 80%; /* Or any other suitable width */
-}
-
-.match-card img {
-  width: 80px; /* Or any other suitable size */
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #5c67f2;
-  margin-bottom: 10px;
-}
-
-.match-card p {
-  font-size: 18px;
-  color: #333;
-  margin: 5px 0;
-}
-
-.waiting-page .button {
-  padding: 10px 20px;
-  font-size: 16px;
-  color: white;
-  background-color: #5c67f2;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  outline: none;
-  margin: 5px;
-  min-width: 150px; /* Ensures buttons have the same width */
-}
-
-.waiting-page .button:hover {
-  background-color: #4b55e1;
-}
-
-.cancel-button {
-  background-color: #ff6666;
-}
-
-.cancel-button:hover {
-  background-color: #ff4d4d;
-}
-
-/* Add specific styles for the continue searching button if needed */
-.continue-searching-button {
-  background-color: #4caf50; /* Example color */
-}
-
-.continue-searching-button:hover {
-  background-color: #43a047;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #000; /* Changed to black background */
+    color: #fff; /* Changed text color to white for contrast */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .waiting-page h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .waiting-page p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .match-cards {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Take the full width of the parent */
+    max-width: 350px; /* Maximum width of the cards */
+    align-items: center;
+  }
+  
+  .match-card {
+    background-color: #fff;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 0.5rem 0;
+    width: 100%; /* Make the cards take the full width of the .match-cards container */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .match-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #5c67f2;
+    margin-bottom: 1rem;
+  }
+  
+  .match-card p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
+  
+  .waiting-page .button, .cancel-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #5c67f2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    margin: 0.5rem;
+    width: auto; /* Allows the button to grow as per the content */
+  }
+  
+  .waiting-page .button:hover {
+    background-color: #4b55e1;
+  }
+  
+  .cancel-button {
+    background-color: #ff6666;
+  }
+  
+  .cancel-button:hover {
+    background-color: #ff4d4d;
+  }
+  
+  /* Add specific styles for the continue searching button if needed */
+  .continue-searching-button {
+    background-color: #4caf50; /* Example color */
+  }
+  
+  .continue-searching-button:hover {
+    background-color: #43a047;
+  }
+  
