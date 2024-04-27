@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { auth, firestore } from '../firebase-config';
-import { doc, updateDoc, collection, query, where, onSnapshot, writeBatch, getDoc } from "firebase/firestore";
-import './WaitingPage.css';
+import { doc, updateDoc, collection, query, where, onSnapshot, writeBatch } from "firebase/firestore";
 
 const WaitingPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [potentialMatches, setPotentialMatches] = useState([]);
-  const [matchedUserData, setMatchedUserData] = useState(null);
+  const [commonInterests, setCommonInterests] = useState([]);
   const [timeoutId, setTimeoutId] = useState(null);
+  const interestBased = location.state?.interestBased;
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -17,7 +18,7 @@ const WaitingPage = () => {
     }
 
     const currentUserRef = doc(firestore, 'users', auth.currentUser.uid);
-    updateDoc(currentUserRef, { lookingForChat: true });
+    updateDoc(currentUserRef, { lookingForChat: true, interestBased });
 
     const unsubCurrentUser = onSnapshot(currentUserRef, (doc) => {
       const userData = doc.data();
@@ -27,11 +28,22 @@ const WaitingPage = () => {
     });
 
     const q = query(collection(firestore, 'users'), where('lookingForChat', '==', true));
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const users = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() })).filter(user => user.uid !== auth.currentUser.uid && user.lookingForChat);
-      console.log("Fetched users: ", users);
-      setPotentialMatches(users);
+    const unsubscribe = onSnapshot(q, async (snapshot) => {
+      const currentUserData = snapshot.docs.find(doc => doc.id === auth.currentUser.uid)?.data();
+      const users = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() })).filter(user => user.uid !== auth.currentUser.uid);
+      
+      if (interestBased && currentUserData?.interests) {
+        const potentialInterestsMatches = users.filter(user => user.interests.some(interest => currentUserData.interests.includes(interest)));
+        if (potentialInterestsMatches.length) {
+          // Find common interests for the first match (this can be adapted for multiple matches)
+          const firstMatchInterests = potentialInterestsMatches[0].interests;
+          const common = currentUserData.interests.filter(interest => firstMatchInterests.includes(interest));
+          setCommonInterests(common);
+          setPotentialMatches(potentialInterestsMatches);
+        }
+      } else {
+        setPotentialMatches(users);
+      }
     }, err => {
       console.error("Error fetching potential matches: ", err);
     });
@@ -49,7 +61,7 @@ const WaitingPage = () => {
       unsubCurrentUser();
       updateDoc(currentUserRef, { lookingForChat: false });
     };
-  }, [navigate]);
+  }, [navigate, interestBased]);
 
   const handleAcceptMatch = async (matchedUser) => {
     clearTimeout(timeoutId);
@@ -67,10 +79,9 @@ const WaitingPage = () => {
 
   const handleContinueSearching = () => {
     setPotentialMatches([]);
+    setCommonInterests([]);
     navigate('/waiting');
   };
-  
-  console.log("Potential Matches: ", potentialMatches);
 
   const cancelSearch = () => {
     clearTimeout(timeoutId);
@@ -83,32 +94,23 @@ const WaitingPage = () => {
       });
   };
 
+  const matchFoundText = commonInterests.length > 0
+    ? `Match found! Common interest${commonInterests.length > 1 ? 's' : ''}: ${commonInterests.join(', ')}`
+    : "Match found!";
+
   return (
     <div className="waiting-page">
-      <h1>{potentialMatches.length > 0 ? "Match found!" : "Looking for a match..."}</h1>
-      {matchedUserData ? (
-        <div className="match-card">
-          <img src={matchedUserData.pictureURL} alt={matchedUserData.displayName} />
-          <p>{matchedUserData.name}</p>
-          <button onClick={() => navigate(`/chatting/${matchedUserData.currentChatId}`)}>Start Chat</button>
-        </div>
-      ) : (
-        potentialMatches.length > 0 ? (
-          <div className="match-cards">
-            {potentialMatches.map(user => (
-              console.log("User object:", user),
-              <div key={user.uid} className="match-card">
-                <img src={user.pictureUrl} alt="No Pic Uploaded" />
-                <p>{user.name}</p>
-                <button onClick={() => handleAcceptMatch(user)}>Start Chat</button>
-                <button onClick={handleContinueSearching}>Continue Searching</button>
-              </div>
-            ))}
+      <h1>{potentialMatches.length > 0 ? matchFoundText : "Looking for a match..."}</h1>
+      <div className="match-cards">
+        {potentialMatches.map(user => (
+          <div key={user.uid} className="match-card">
+            <img src={user.pictureUrl || "/default-profile.png"} alt={user.name || "User profile"} />
+            <p>{user.name}</p>
+            <button onClick={() => handleAcceptMatch(user)}>Start Chat</button>
+            <button onClick={handleContinueSearching}>Continue Searching</button>
           </div>
-        ) : (
-          <p>Please wait while we find someone you can chat with.</p>
-        )
-      )}
+        ))}
+      </div>
       <button onClick={cancelSearch} className="cancel-button">Cancel</button>
     </div>
   );
