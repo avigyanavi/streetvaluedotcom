@@ -12,7 +12,7 @@ const Dashboard = () => {
       // Check if the user is logged in and update the state
       if (auth.currentUser) {
         setUser({
-          name: auth.currentUser.displayName || 'anon user'
+          name: auth.currentUser.displayName || auth.currentUser.uid
         });
       } else {
         // Redirect to login if no user is found
@@ -48,6 +48,11 @@ const Dashboard = () => {
         {/* <button className="link-button" onClick={() => navigate('/search')}>Search</button>
         <button className="link-button" onClick={() => navigate('/saved-people')}>Friends</button> */}
         <button className="link-button" onClick={handleLogout}>Logout</button>
+
+
+        <footer className="footer-text">
+      We don't sell or release data to anyone
+    </footer>
       </div>
   );
 };

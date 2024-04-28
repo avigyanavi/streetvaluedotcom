@@ -77,7 +77,7 @@ const ChattingPage = () => {
         });
       });
       await batch.commit();
-      navigate('/dashboard');
+      navigate('/chat');
       await deleteDoc(chatRef);
     }
   };
@@ -89,38 +89,41 @@ const ChattingPage = () => {
 
   return (
     <div className="chatting-container">
-      <div className="message-list">
-        {messages.map((msg, index) => (
-          <p key={index} onClick={() => showUserProfile(msg.senderId)}
-            className={`message ${msg.senderId === auth.currentUser.uid ? "current-user" : "other-user"}`}>
-            <span className={msg.senderId === auth.currentUser.uid ? "" : "clickable-username"}>
-              {userProfiles[msg.senderId] ? userProfiles[msg.senderId].name : (msg.senderId === auth.currentUser.uid ? "You" : "Them")}
-            </span>
-            : {msg.text}
-          </p>
-        ))}
+      <div className="video-section">
+        <div className="video-window" id="local-video"></div>
+        <div className="video-window" id="remote-video"></div>
       </div>
-  
-      <div className="chat-inputs">
-        <input type="text" value={newMessage} onChange={e => setNewMessage(e.target.value)} />
-        <button onClick={sendMessage}>Send</button>
-        <button onClick={endChat}>End Chat</button>
-      </div>
-  
-      {showProfile && selectedUserProfile && (
-        <div className="profile-card">
-          <img src={selectedUserProfile.pictureUrl} alt={selectedUserProfile.name} />
-          <h3>{selectedUserProfile.name}</h3>
-          <p>Age: {selectedUserProfile.age}</p>
-          <p>Bio: {selectedUserProfile.bio}</p>
-          <p>Gender: {selectedUserProfile.gender}</p>
-          <p>Interests: {selectedUserProfile.interests.join(', ')}</p>
-          <button onClick={() => setShowProfile(false)} className="close-profile-btn">Close Profile</button>
+      <div className="chat-section">
+        <div className="message-list">
+          {messages.map((msg, index) => (
+            <p key={index} onClick={() => showUserProfile(msg.senderId)}
+              className={`message ${msg.senderId === auth.currentUser.uid ? "current-user" : "other-user"}`}>
+              <span className={msg.senderId === auth.currentUser.uid ? "" : "clickable-username"}>
+                {userProfiles[msg.senderId] ? userProfiles[msg.senderId].name : (msg.senderId === auth.currentUser.uid ? "You" : "Them")}
+              </span>
+              : {msg.text}
+            </p>
+          ))}
         </div>
-      )}
+        <div className="chat-inputs">
+          <input type="text" value={newMessage} onChange={e => setNewMessage(e.target.value)} />
+          <button onClick={sendMessage}>Send</button>
+          <button onClick={endChat}>End Chat</button>
+        </div>
+        {showProfile && selectedUserProfile && (
+          <div className="profile-card">
+            <img src={selectedUserProfile.pictureUrl} alt={selectedUserProfile.name} />
+            <h3>{selectedUserProfile.name}</h3>
+            <p>Age: {selectedUserProfile.age}</p>
+            <p>Bio: {selectedUserProfile.bio}</p>
+            <p>Gender: {selectedUserProfile.gender}</p>
+            <p>Interests: {selectedUserProfile.interests.join(', ')}</p>
+            <button onClick={() => setShowProfile(false)} className="close-profile-btn">Close Profile</button>
+          </div>
+        )}
+      </div>
     </div>
   );
-  
 };
 
 export default ChattingPage;

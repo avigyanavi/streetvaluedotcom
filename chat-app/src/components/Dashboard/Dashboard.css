@@ -43,6 +43,17 @@ h1 {
   animation: fadeIn 2s both;
 }
 
+.footer-text {
+  position: bottom;
+  /* bottom: 0; */
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #000; /* Or whatever background color fits the theme of your page */
+  color: #fff; /* Adjust text color as needed */
+}
+
+
 @keyframes fadeIn {
   0% { opacity: 0; transform: translateY(-20px); }
   100% { opacity: 1; transform: translateY(0); }

@@ -9,9 +9,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 40px; /* Added padding to ensure content does not touch the edges of the screen */
+  box-sizing: border-box; /* Ensures padding is included in width */
 }
 
 .chat-container {
+  width: 100%; /* Make sure container uses full width */
+  max-width: 500px; /* Limit the max width for larger screens */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,6 +37,8 @@ button {
   font-size: 16px;
   font-weight: 500;
   transition: background-color 0.3s;
+  width: 100%; /* Full width buttons on mobile */
+  box-sizing: border-box; /* Ensures padding is included in width */
 }
 
 button:hover {
@@ -43,15 +49,23 @@ button:focus {
   outline: none; /* Removes the outline to keep the design clean */
 }
 
+.interest-text {
+  color: #fff;
+  text-align: center; /* Center the text */
+  display: block; /* Ensures it is on its own line */
+}
+
 /* Media query for smaller devices */
 @media (max-width: 768px) {
   .chat-page {
-    padding: 40px;
+    padding: 20px; /* Reduce padding on smaller screens */
   }
-}
-
-.interest-text {
-  margin-right: 5px;
-  margin-bottom: 10px;
-  color: #fff
+  
+  .chat-container {
+    gap: 10px; /* Reduce space between elements on small screens */
+  }
+  
+  .interest-text {
+    margin: 10px 0; /* Add some space around the text */
+  }
 }

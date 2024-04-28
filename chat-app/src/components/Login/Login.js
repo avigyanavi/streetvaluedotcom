@@ -98,7 +98,7 @@ const Login = () => {
         />
         <button type="submit" className="login-button">Log In</button>
         <button type="button" className="signup-button" onClick={handleSignUp}>Sign Up</button>
-        <button type="button" className="anonymous-button" onClick={handleAnonymousLogin}>Login Anonymously</button>
+        <button type="button" className="anonymous-button" onClick={handleAnonymousLogin}>Sign In Anonymously</button>
       </form>
       )}
     </div>
