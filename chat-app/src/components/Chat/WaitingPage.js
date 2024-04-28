@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { auth, firestore } from '../firebase-config';
+import { auth, firestore, database } from '../firebase-config'; // Ensure the Realtime Database is also initialized
 import { doc, updateDoc, collection, query, where, onSnapshot, writeBatch } from "firebase/firestore";
+import { ref, set, serverTimestamp } from "firebase/database";
 
 const WaitingPage = () => {
   const navigate = useNavigate();
@@ -35,7 +36,6 @@ const WaitingPage = () => {
       if (interestBased && currentUserData?.interests) {
         const potentialInterestsMatches = users.filter(user => user.interests.some(interest => currentUserData.interests.includes(interest)));
         if (potentialInterestsMatches.length) {
-          // Find common interests for the first match (this can be adapted for multiple matches)
           const firstMatchInterests = potentialInterestsMatches[0].interests;
           const common = currentUserData.interests.filter(interest => firstMatchInterests.includes(interest));
           setCommonInterests(common);
@@ -66,52 +66,41 @@ const WaitingPage = () => {
   const handleAcceptMatch = async (matchedUser) => {
     clearTimeout(timeoutId);
     const chatId = [auth.currentUser.uid, matchedUser.uid].sort().join('_');
-    const chatRef = doc(firestore, 'chats', chatId);
-    const batch = writeBatch(firestore);
+    const chatSessionRef = ref(database, `chatSessions/${chatId}`);
 
-    batch.set(chatRef, { users: [auth.currentUser.uid, matchedUser.uid], messages: [] });
+    // Set initial chat session in Realtime Database
+    await set(chatSessionRef, {
+      users: [auth.currentUser.uid, matchedUser.uid],
+      timestamp: serverTimestamp()
+    });
+
+    // Update Firestore user data with currentChatId to manage session
+    const batch = writeBatch(firestore);
     batch.update(doc(firestore, 'users', auth.currentUser.uid), { currentChatId: chatId, lookingForChat: false });
     batch.update(doc(firestore, 'users', matchedUser.uid), { currentChatId: chatId, lookingForChat: false });
-
     await batch.commit();
+
     navigate(`/chatting/${chatId}`);
   };
 
-  const handleContinueSearching = () => {
-    setPotentialMatches([]);
-    setCommonInterests([]);
-    navigate('/waiting');
-  };
-
-  const cancelSearch = () => {
-    clearTimeout(timeoutId);
-    updateDoc(doc(firestore, 'users', auth.currentUser.uid), { lookingForChat: false })
-      .then(() => {
-        navigate('/chat');
-      })
-      .catch(err => {
-        console.error("Failed to cancel match search: ", err);
-      });
-  };
-
-  const matchFoundText = commonInterests.length > 0
-    ? `Match found! Common interest${commonInterests.length > 1 ? 's' : ''}: ${commonInterests.join(', ')}`
-    : "Match found!";
-
   return (
     <div className="waiting-page">
-      <h1>{potentialMatches.length > 0 ? matchFoundText : "Looking for a match..."}</h1>
+      <h1>{potentialMatches.length > 0 ? `Match found! Common interests: ${commonInterests.join(', ')}` : "Looking for a match..."}</h1>
       <div className="match-cards">
         {potentialMatches.map(user => (
           <div key={user.uid} className="match-card">
-            <img src={user.pictureUrl || "/default-profile.png"} alt={"No DP"} />
+            <img src={user.pictureUrl || "/default-profile.png"} alt={"Profile Picture"} />
             <p>{user.name}</p>
             <button onClick={() => handleAcceptMatch(user)}>Start Chat</button>
-            <button onClick={handleContinueSearching}>Continue Searching</button>
+            <button onClick={() => navigate('/waiting')}>Continue Searching</button>
           </div>
         ))}
       </div>
-      <button onClick={cancelSearch} className="cancel-button">Cancel</button>
+      <button onClick={() => {
+        clearTimeout(timeoutId);
+        updateDoc(doc(firestore, 'users', auth.currentUser.uid), { lookingForChat: false });
+        navigate('/chat');
+      }} className="cancel-button">Cancel</button>
     </div>
   );
 };
