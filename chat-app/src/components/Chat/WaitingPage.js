@@ -67,7 +67,7 @@ const WaitingPage = () => {
     clearTimeout(timeoutId);
     const chatId = [auth.currentUser.uid, matchedUser.uid].sort().join('_');
     const chatSessionRef = ref(database, `chatSessions/${chatId}`);
-
+    
     // Set initial chat session in Realtime Database
     await set(chatSessionRef, {
       users: [auth.currentUser.uid, matchedUser.uid],
@@ -89,7 +89,7 @@ const WaitingPage = () => {
       <div className="match-cards">
         {potentialMatches.map(user => (
           <div key={user.uid} className="match-card">
-            <img src={user.pictureUrl || "/default-profile.png"} alt={"Profile Picture"} />
+            <img src={user.pictureUrl} alt={"No Profile Pic Set"} />
             <p>{user.name}</p>
             <button onClick={() => handleAcceptMatch(user)}>Start Chat</button>
             <button onClick={() => navigate('/waiting')}>Continue Searching</button>

@@ -11,13 +11,14 @@ import VerifyEmail from './components/Signup/VerifyEmail';
 import WaitingPage from './components/Chat/WaitingPage';
 import ChattingPage from './components/Chat/ChattingPage';
 import SavedPeople from './components/Search/SavedPeople';
+import LoginWithEmail from './components/Login/LoginWthEmail';
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/loginWithEmail" element={<LoginWithEmail />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/search" element={<Search />} />

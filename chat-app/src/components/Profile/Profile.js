@@ -138,7 +138,7 @@ const Profile = () => {
             <p>Age: {profile.age}</p>
             <p>Gender: {profile.gender}</p>
             <p>Interests: {profile.interests.join(', ')}</p>
-            <img src={profile.pictureUrl || 'default-profile.png'} alt="Profile" className="profile-image" />
+            <img src={profile.pictureUrl} alt="No Profile Pic Set" className="profile-image" />
             <button onClick={() => setEditing(true)}>Edit</button>
           </>
         )}

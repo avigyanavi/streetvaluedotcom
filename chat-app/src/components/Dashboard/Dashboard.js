@@ -1,33 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase-config'; // Adjust this import based on your project structure
+import { auth, database } from '../firebase-config';
 import './Dashboard.css';
 import { signOut } from "firebase/auth";
+import { ref, set, onDisconnect } from "firebase/database";
 
 const Dashboard = () => {
-    const [user, setUser] = useState(null);
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      // Check if the user is logged in and update the state
-      if (auth.currentUser) {
-        setUser({
-          name: auth.currentUser.displayName || auth.currentUser.uid
-        });
-      } else {
-        // Redirect to login if no user is found
-        navigate('/login');
-      }
-    }, [navigate]);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      setUser({
+        uid: auth.currentUser.uid, // Store UID for later use during logout
+        name: auth.currentUser.displayName || auth.currentUser.email || auth.currentUser.uid
+      });
+
+      // Set user online status
+      const statusRef = ref(database, `status/${auth.currentUser.uid}`);
+      set(statusRef, { isOnline: true });
+
+      // Set the user's status to offline on disconnect
+      onDisconnect(statusRef).set({ isOnline: false });
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   const handleLogout = async () => {
+    if (user) {
+      // Use stored UID from user state
+      const statusRef = ref(database, `status/${user.uid}`);
+      await set(statusRef, { isOnline: false });
+    }
     try {
       await signOut(auth);
-      navigate('/login');
     } catch (error) {
       console.error('Error logging out:', error);
     }
+    navigate('/login');
   };
+
   const createAnimatedTitle = (text) => {
     return text.split('').map((char, index) => (
       <span key={index} style={{ 
@@ -42,18 +55,14 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-page">
-        <h1>Welcome {user ? createAnimatedTitle(user.name) : 'Loading...'} to your Dashboard</h1>
-        <button className="link-button" onClick={() => navigate('/profile')}>Profile</button>
-        <button className="link-button" onClick={() => navigate('/chat')}>Chat</button>
-        {/* <button className="link-button" onClick={() => navigate('/search')}>Search</button>
-        <button className="link-button" onClick={() => navigate('/saved-people')}>Friends</button> */}
-        <button className="link-button" onClick={handleLogout}>Logout</button>
-
-
-        <footer className="footer-text">
-      We don't sell or release data to anyone
-    </footer>
-      </div>
+      <h1>Welcome {user ? createAnimatedTitle(user.name) : 'Loading...'} to your Dashboard</h1>
+      <button className="link-button" onClick={() => navigate('/profile')}>Profile</button>
+      <button className="link-button" onClick={() => navigate('/chat')}>Chat</button>
+      <button className="link-button" onClick={handleLogout}>Logout</button>
+      <footer className="footer-text">
+        We don't sell or release data to anyone.
+      </footer>
+    </div>
   );
 };
 
