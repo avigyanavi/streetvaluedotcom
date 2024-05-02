@@ -59,28 +59,20 @@ const ChattingPage = () => {
   };
 
   const endChatCleanup = async () => {
-    // Extract individual user IDs from the composite chat ID
     const userIds = chattingId.split('_');
     const batch = writeBatch(firestore);
-  
-    // Loop over each user ID and prepare the batch update to clear currentChatId
     userIds.forEach((userId) => {
       const userRef = doc(firestore, 'users', userId);
       batch.update(userRef, { currentChatId: '' });
     });
-  
-    // Commit the batch update
+    const chatSessionRef = ref(database, `chatSessions/${chattingId}`);
+    remove(chatSessionRef);
     try {
       await batch.commit();
-      console.log("Successfully cleared currentChatId for users:", userIds.join(', '));
+      navigate('/chat');
     } catch (error) {
       console.error("Failed to clear currentChatId for users:", error);
     }
-   
-    // Set a timeout to allow for asynchronous Firestore updates
-    setTimeout(() => {
-      navigate('/chat');
-    }, 2000); // Adjust time as needed
   };
 
   const showUserProfile = async (userId) => {
