@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { auth, firestore, database } from '../firebase-config'; // Ensure the Realtime Database is also initialized
+import { auth, firestore, database } from '../firebase-config';
 import { doc, updateDoc, collection, query, where, onSnapshot, writeBatch } from "firebase/firestore";
 import { ref, set, serverTimestamp } from "firebase/database";
 
@@ -17,17 +17,17 @@ const WaitingPage = () => {
       navigate('/login');
       return;
     }
-
+  
     const currentUserRef = doc(firestore, 'users', auth.currentUser.uid);
     updateDoc(currentUserRef, { lookingForChat: true, interestBased });
-
+  
     const unsubCurrentUser = onSnapshot(currentUserRef, (doc) => {
       const userData = doc.data();
-      if (userData.currentChatId) {
+      if (userData && userData.currentChatId) {  // Ensure userData exists and has the property currentChatId
         navigate(`/chatting/${userData.currentChatId}`);
       }
     });
-
+  
     const q = query(collection(firestore, 'users'), where('lookingForChat', '==', true));
     const unsubscribe = onSnapshot(q, async (snapshot) => {
       const currentUserData = snapshot.docs.find(doc => doc.id === auth.currentUser.uid)?.data();
@@ -47,14 +47,14 @@ const WaitingPage = () => {
     }, err => {
       console.error("Error fetching potential matches: ", err);
     });
-
+  
     const id = setTimeout(() => {
       updateDoc(currentUserRef, { lookingForChat: false }).then(() => {
         navigate('/chat');
       });
     }, 60000);
     setTimeoutId(id);
-
+  
     return () => {
       clearTimeout(id);
       unsubscribe();
@@ -89,10 +89,9 @@ const WaitingPage = () => {
       <div className="match-cards">
         {potentialMatches.map(user => (
           <div key={user.uid} className="match-card">
-            <img src={user.pictureUrl} alt={"No Profile Pic Set"} />
+            <img src={user.pictureUrl} alt="Profile" />
             <p>{user.name}</p>
             <button onClick={() => handleAcceptMatch(user)}>Start Chat</button>
-            <button onClick={() => navigate('/waiting')}>Continue Searching</button>
           </div>
         ))}
       </div>

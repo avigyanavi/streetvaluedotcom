@@ -4,6 +4,7 @@ import { auth, firestore, database } from '../firebase-config';
 import { doc, updateDoc, getDoc, writeBatch } from "firebase/firestore";
 import { ref, set, onValue, push, serverTimestamp, remove } from "firebase/database";
 import './ChattingPage.css';
+import { onDisconnect } from 'firebase/database';
 
 const ChattingPage = () => {
   const { chattingId } = useParams();
@@ -39,9 +40,14 @@ const ChattingPage = () => {
       }
     });
 
+    onDisconnect(endChatFlagRef).set(true).then(() => {
+      console.log("onDisconnect set successfully.");
+    });
+
     return () => {
       unsubscribeMessages();
       unsubscribeEndChat();
+      onDisconnect(endChatFlagRef).cancel();
       remove(messagesRef);
       remove(endChatFlagRef);
     };
