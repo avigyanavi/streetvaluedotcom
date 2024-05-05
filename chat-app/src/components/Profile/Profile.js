@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, firestore, storage } from '../firebase-config';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref as storageRef, deleteObject } from "firebase/storage"; // Import deleteObject
 import { signOut } from "firebase/auth";
 import './Profile.css';
-
+import { uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -56,7 +56,7 @@ const Profile = () => {
   };
 
   const handleBackToDashboard = () => {
-    navigate('/dashboard'); // Navigate to Dashboard component
+    navigate('/dashboard'); 
   };
 
   const handleAddInterest = () => {
@@ -76,10 +76,6 @@ const Profile = () => {
     }));
   };
 
-  const handleNewInterestChange = (e) => {
-    setNewInterest(e.target.value);
-  };
-  
   const saveProfile = async () => {
     let photoURL = profile.pictureUrl;
     if (imageFile) {
@@ -94,6 +90,15 @@ const Profile = () => {
     });
     setProfile(prev => ({ ...prev, pictureUrl: photoURL }));
     setEditing(false);
+  };
+
+  const deleteProfilePicture = async () => {
+    if (profile.pictureUrl) {
+      const fileRef = storageRef(storage, `profile_pictures/${auth.currentUser.uid}`);
+      await deleteObject(fileRef);
+      await updateDoc(doc(firestore, 'users', auth.currentUser.uid), { pictureUrl: '' });
+      setProfile(prev => ({ ...prev, pictureUrl: '' }));
+    }
   };
 
   return (
@@ -115,21 +120,24 @@ const Profile = () => {
               <label className='interest-heading'>Interests:</label>
               {profile.interests.map((interest, index) => (
                 <div key={index} className="interest-item">
-                  <span className="edit-profile-interest-text" type="text">{interest}</span>
-                  <span className= "remove-interest-btn" type="button" onClick={() => handleRemoveInterest(interest)}>Remove</span>
+                  <span className="edit-profile-interest-text">{interest}</span>
+                  <button className="remove-interest-btn" onClick={() => handleRemoveInterest(interest)}>Remove</button>
                 </div>
               ))}
               <input
                 type="text"
                 value={newInterest}
-                onChange={handleNewInterestChange}
+                onChange={handleInputChange}
                 placeholder="Add new interest"
               />
-              <button type="button" onClick={handleAddInterest}>Add Interest</button>
+              <button onClick={handleAddInterest}>Add Interest</button>
             </div>
             <input type="file" onChange={handleImageChange} />
             <button onClick={saveProfile}>Save</button>
             <button onClick={() => setEditing(false)}>Cancel</button>
+            {profile.pictureUrl && (
+              <button onClick={deleteProfilePicture}>Delete Profile Picture</button>
+            )}
           </>
         ) : (
           <>
@@ -138,7 +146,10 @@ const Profile = () => {
             <p>Age: {profile.age}</p>
             <p>Gender: {profile.gender}</p>
             <p>Interests: {profile.interests.join(', ')}</p>
-            <img src={profile.pictureUrl} alt="No Profile Pic Set" className="profile-image" />
+            <img src={profile.pictureUrl || "/default-profile.png"} alt="Profile" className="profile-image" />
+            {profile.pictureUrl && (
+              <button onClick={deleteProfilePicture}>Delete Profile Picture</button>
+            )}
             <button onClick={() => setEditing(true)}>Edit</button>
           </>
         )}
