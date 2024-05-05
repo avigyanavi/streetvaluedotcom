@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "street-valuedotcom"
-  }
+    "default": "street-valuedotcom",
+    "Sowmya": "omegldotin"
+  },
+  "targets": {},
+  "etags": {}
 }

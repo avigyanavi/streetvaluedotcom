@@ -188,7 +188,7 @@ const ChattingPage = () => {
       {isLoading && <div className="loading-icon">Uploading...</div>}
       {showProfile && selectedUserProfile && (
         <div className="profile-card">
-          <img src={selectedUserProfile.pictureUrl || "/default-profile.png"} alt={selectedUserProfile.name || "No DP set"} />
+          <img src={selectedUserProfile.pictureUrl || "https://firebasestorage.googleapis.com/v0/b/omegldotin.appspot.com/o/default-profile.png?alt=media&token=7056aaef-d1c6-4bcf-b499-0c8764f8464a"} alt={selectedUserProfile.name || "No DP set"} />
           <h3>{selectedUserProfile.name}</h3>
           <p>Age: {selectedUserProfile.age}</p>
           <p>Bio: {selectedUserProfile.bio}</p>

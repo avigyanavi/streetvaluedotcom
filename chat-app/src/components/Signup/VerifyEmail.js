@@ -22,7 +22,7 @@ const VerifyEmail = () => {
   return (
     <div className="verify-email-container">
       <h1>Please Verify Your Email Address</h1>
-      <p>An email has been sent to your email address. Please click on the verification link to verify your account.</p>
+      <p>An email has been sent to your email address. Please check your junk email.</p>
       <button onClick={() => window.location.reload()}>Click to Refresh</button>
     </div>
   );

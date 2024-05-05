@@ -146,7 +146,7 @@ const Profile = () => {
             <p>Age: {profile.age}</p>
             <p>Gender: {profile.gender}</p>
             <p>Interests: {profile.interests.join(', ')}</p>
-            <img src={profile.pictureUrl || "/default-profile.png"} alt="Profile" className="profile-image" />
+            <img src={profile.pictureUrl || "https://firebasestorage.googleapis.com/v0/b/omegldotin.appspot.com/o/default-profile.png?alt=media&token=7056aaef-d1c6-4bcf-b499-0c8764f8464a"} alt="" className="profile-image" />
             {profile.pictureUrl && (
               <button onClick={deleteProfilePicture}>Delete Profile Picture</button>
             )}

@@ -60,9 +60,9 @@ const Login = () => {
   };
 
   const titles = [
-    'Welcome to Street-Value.com',
-    'Chat with Strangers',
-    'Chat with Friends',
+    'The new Omegl.in',
+    'Chat with Anyone, Anywhere',
+    'Create your Profile to update interests or do it randomly',
   ];
 
   return (
