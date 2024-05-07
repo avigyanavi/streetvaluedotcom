@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, firestore, storage } from '../firebase-config';
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { ref as storageRef, deleteObject } from "firebase/storage"; // Import deleteObject
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signOut } from "firebase/auth";
 import './Profile.css';
-import { uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -49,6 +48,10 @@ const Profile = () => {
     }));
   };
 
+  const handleNewInterestChange = (e) => {
+    setNewInterest(e.target.value);
+  };
+
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
       setImageFile(e.target.files[0]);
@@ -77,28 +80,24 @@ const Profile = () => {
   };
 
   const saveProfile = async () => {
-    let photoURL = profile.pictureUrl;
+    // Set default image URL if none provided
+    let photoURL = profile.pictureUrl || "https://firebasestorage.googleapis.com/v0/b/omegldotin.appspot.com/o/default-profile.png?alt=media&token=7056aaef-d1c6-4bcf-b499-0c8764f8464a";
+    
+    // Upload image if a new file is chosen
     if (imageFile) {
       const fileRef = storageRef(storage, `profile_pictures/${auth.currentUser.uid}`);
       const fileSnapshot = await uploadBytes(fileRef, imageFile);
       photoURL = await getDownloadURL(fileSnapshot.ref);
     }
     
+    // Update the Firestore document
     await updateDoc(doc(firestore, 'users', auth.currentUser.uid), {
       ...profile,
       pictureUrl: photoURL
     });
+
     setProfile(prev => ({ ...prev, pictureUrl: photoURL }));
     setEditing(false);
-  };
-
-  const deleteProfilePicture = async () => {
-    if (profile.pictureUrl) {
-      const fileRef = storageRef(storage, `profile_pictures/${auth.currentUser.uid}`);
-      await deleteObject(fileRef);
-      await updateDoc(doc(firestore, 'users', auth.currentUser.uid), { pictureUrl: '' });
-      setProfile(prev => ({ ...prev, pictureUrl: '' }));
-    }
   };
 
   return (
@@ -127,7 +126,7 @@ const Profile = () => {
               <input
                 type="text"
                 value={newInterest}
-                onChange={handleInputChange}
+                onChange={handleNewInterestChange}
                 placeholder="Add new interest"
               />
               <button onClick={handleAddInterest}>Add Interest</button>
@@ -135,9 +134,6 @@ const Profile = () => {
             <input type="file" onChange={handleImageChange} />
             <button onClick={saveProfile}>Save</button>
             <button onClick={() => setEditing(false)}>Cancel</button>
-            {profile.pictureUrl && (
-              <button onClick={deleteProfilePicture}>Delete Profile Picture</button>
-            )}
           </>
         ) : (
           <>
@@ -146,10 +142,7 @@ const Profile = () => {
             <p>Age: {profile.age}</p>
             <p>Gender: {profile.gender}</p>
             <p>Interests: {profile.interests.join(', ')}</p>
-            <img src={profile.pictureUrl || "https://firebasestorage.googleapis.com/v0/b/omegldotin.appspot.com/o/default-profile.png?alt=media&token=7056aaef-d1c6-4bcf-b499-0c8764f8464a"} alt="" className="profile-image" />
-            {profile.pictureUrl && (
-              <button onClick={deleteProfilePicture}>Delete Profile Picture</button>
-            )}
+            <img src={profile.pictureUrl || "https://firebasestorage.googleapis.com/v0/b/omegldotin.appspot.com/o/default-profile.png?alt=media&token=7056aaef-d1c6-4bcf-b499-0c8764f8464a"} alt="Profile" className="profile-image" />
             <button onClick={() => setEditing(true)}>Edit</button>
           </>
         )}

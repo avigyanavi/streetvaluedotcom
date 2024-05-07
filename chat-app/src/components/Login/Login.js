@@ -62,7 +62,7 @@ const Login = () => {
   const titles = [
     'The new Omegl.in',
     'Chat with Anyone, Anywhere',
-    'Create your Profile to update interests or do it randomly',
+    'Profile based or Anonymous Chatting',
   ];
 
   return (
