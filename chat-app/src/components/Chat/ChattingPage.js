@@ -42,7 +42,11 @@ const ChattingPage = () => {
       }
     });
 
-    onDisconnect(endChatFlagRef).set(true);
+    // Setting the disconnection timer to 120 seconds
+    const disconnectTimeout = 120000; // 120,000 milliseconds = 120 seconds
+    setTimeout(() => {
+      onDisconnect(endChatFlagRef).set(true);
+    }, disconnectTimeout);
 
     return () => {
       unsubscribeMessages();

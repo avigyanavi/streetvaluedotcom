@@ -91,6 +91,9 @@ const WaitingPage = () => {
           <div key={user.uid} className="match-card">
             <img src={user.pictureUrl} alt="Profile" />
             <p>{user.name}</p>
+            <p>{user.interests.join(', ')}</p>
+            <p>{user.bio}</p>
+            <p>{user.age}</p>
             <button onClick={() => handleAcceptMatch(user)}>Start Chat</button>
           </div>
         ))}
